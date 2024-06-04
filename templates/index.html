@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+
+    <div class="bg-primary text-white text-center py-5" style="background-image: url('{% static 'images/banner.jpg' %}'); width: 100%; height: 100%; background-size: cover;">
+        <div class="col-6 " style="height: 13em;  padding-top: 5em;">
+            
+            <h2 class="" style="text-transform: uppercase;">Welcome to Online Computer Shop</h2>
+        
+            <p style="letter-spacing: 2.8pt;">Your one-stop destination for buying Computers online</p>
+        </div>
+        
+    </div>
+    
+    
+
+
+    <div class="container-fluid my-5" style="background-color: beige;">
+        <div class="container-fluid py-3" style=" display: flex; flex-direction: column; justify-content: space-between;  position: relative;">
+            <h4 class="text-center" style="text-transform: uppercase;">Our Computers </h4>
+            <!-- <a href="#" style="align-self: flex-end; margin-top: auto; text-decoration: none; ">Explore more</a> -->
+        </div>
+        <div class="row">
+            {% for computer in computers %}
+            <div class="col-md-3 mb-3" style=" ">
+                <div class="card text-center" style="border: 0;  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); height: 18em; overflow: hidden;">
+                    <!-- <img src="{{ computer.image1.url }}" class="card-img-top" alt="PC 1" style="height: 10em; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);"> -->
+                    <div class="card-img-top" style="height: 10em; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); position: relative;">
+                        <img src="{{ computer.image1.url }}" alt="PC 1" style="height: 100%; width: 100%; object-fit: cover;">
+                        <div class="overlay">
+                            {% if computer.wishlisted %}
+                            <div style="background-image: radial-gradient(rgb(255, 255, 255), rgba(128, 128, 128, 0)); ">
+                                <img src="{% static 'images/wishliston.png' %}" alt="" class="m-2" style="width: 2em;">
+                                
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <h5 class="text-center" style=" margin: 0;">{{computer.name}}</h5>
+                    <p  class="text-center" style=" margin: 0;">{{computer.processor}}</p>
+                    <div class="row" style="width: 80%; align-self: center;">
+                        <div class"" style=" width: 50%; margin: 0;">
+                            <p style="margin: 0;">RAM: {{computer.ram}} GB</p>
+                        </div>
+                        <div class"col-6" style="width: 50%;">
+                            <p style="margin: 0;">{{computer.storage}}</p>
+                        </div>
+                    </div>
+                    <p class="card-text" style=" margin: 0;">{{computer.price}}</p>
+                    <a href="{% url 'details' computer.id %}" class="btn btn-outline-info" style="border: 0; border-radius: 0;">View Details</a>
+                </div>
+            </div>
+
+            {% endfor %}
+
+            
+        </div>
+    </div>
+
+    {% endblock %}

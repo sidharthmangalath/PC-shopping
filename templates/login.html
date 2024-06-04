@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<section style="min-height: 80vh; border: solid rgba(255, 255, 255, 0); background-image: radial-gradient( white,rgba(128, 128, 128, 0.514));" >
+    <div class="container-fluid text-center">
+        <div class="container p-4 mx-auto " style="width: 40em; margin-top: 5em; border: solid 1px rgba(0, 0, 255, 0.37); border-radius: 20px; background-color: rgba(245, 245, 220, 0.219);">
+            <h4>Login</h4>
+            <hr>
+            <form action="" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="text" name="username" class="form-control m-2"  placeholder="Username" required>
+                <input type="password" name="password" class="form-control m-2" placeholder="Password" required>
+                {% if error %}<p class="ml-3" style="text-align: left; font-size: smaller; color: red;">{{error}}</p>{% endif %}
+                <p class="ml-3" style="text-align: left; ">Dont have an account? <a href="/register">Register</a></p>
+                <div style="display: flex; justify-content: flex-start; ">
+                    <button type="submit" class="btn btn-outline-info  ml-3">Login</button> 
+                    
+                </div>
+            </form>
+        </div>
+    </div>
+
+</section>
+
+{% endblock %}

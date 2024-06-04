@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<section style="min-height: 80vh; border: solid rgba(255, 255, 255, 0); background-image: radial-gradient( white,rgba(128, 128, 128, 0.514));" >
+    <div class="container-fluid text-center">
+        <div class="container p-4 mx-auto " style="width: 40em; margin-top: 5em; border: solid 1px rgba(0, 0, 255, 0.37); border-radius: 20px; background-color: rgba(245, 245, 220, 0.219);">
+            <h4>Register</h4>
+            <hr>
+            <form action="" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="text" name="username" class="form-control m-2"  placeholder="Username" required>
+                <input type="password" name="password" class="form-control m-2" placeholder="Password" required>
+                <input type="password" name="confirm_password" class="form-control m-2" placeholder="Confirm Password" required>
+                <input type="email" name="email" class="form-control m-2" placeholder="Email" required>
+                <label for="profile_photo" class="form-control" style="margin-left: 1em; width: 98%; text-align: left;">Upload Image</label>
+                <input type="file" id="profile_photo" name="profile_photo" class="form-control" accept="image/*" style="display: none;" >
+                {% if error %}<p class="ml-3" style="text-align: left; font-size: smaller; color: red;">{{error}}</p>{% endif %}
+                <p class="ml-3" style="text-align: left; ">Already have account? <a href="/login">Login</a></p>
+                <div style="display: flex; justify-content: flex-start; ">
+                    <button type="submit" class="btn btn-outline-info  ml-3">Register</button>
+                    
+                </div>
+            </form>
+        </div>
+    </div>
+
+</section>
+
+{% endblock %}

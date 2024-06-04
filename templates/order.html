@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<section style="background-color: rgba(165, 42, 42, 0.103); min-height: 30em;">
+    <div class="container">
+        <div class="p-2">
+            <h3>My orders</h3>
+            <hr>
+        </div>
+        {%for order in orders %}
+            <div class="p-2 mb-3" style="border: solid black 1px; border-radius: 10px; background-color: rgba(245, 245, 220, 0.322); box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.5);" " >
+                <div class="row">
+                    <div class="col-6">
+                        <p style="font-size: small;">
+                            <b>Order placed:</b> {{ order.created_at|date:"F j, Y" }}&nbsp;&nbsp;
+                            {% if order.status == 'Completed' %}
+                                <b>Order completed:</b> {{ order.delivery_date|date:"F j, Y" }}
+                            {% elif order.status == 'Cancelled' %}
+                            <b>Cancelled:</b> {{ order.delivery_date|date:"F j, Y" }}
+                            {% endif %}
+                            
+                        </p>
+                    </div>
+                    
+                    <div class="col-6">
+                        <p style="font-size: small; text-align: end;"><b>Total price:</b> {{order.price}} ({{order.quantity}} item)</p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        {% if order.status == 'Pending' %}
+                            <p>Preparing for shipping </p>
+                        {% elif order.status == 'Shipped' %}
+                            <p>Item Shipped </p>
+                        {% elif order.status == 'Completed' %}
+                            <p>Delivered </p>
+                        {% elif order.status == 'Cancelled' %}
+                            <p>Cancelled </p>
+                        {% endif %}
+                        <div class="row">
+                            <div class="col-3">
+                                <img src="{{order.computer.image2.url}}" alt="" style="width: 80%; height: 6em; margin-left: 1em; border-radius: 8px; border-right: solid blue ; border-bottom: solid blue;">
+                            </div>
+                            <div class="col-9">
+                                <h6>{{order.computer.name}}</h6>
+                                <p class="m-0">{{order.computer.brand}}</p>
+                                <p class="m-0">{{order.computer.category}}</p>
+                                <p>{{order.computer.processor}}, {{order.computer.ram}}GB</p>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    {% if order.status == 'Completed' or order.status == 'Cancelled' %}
+   
+                        <div class="col-md-6" style="display: flex; flex-direction: column; align-items: flex-end; justify-content: flex-end;"> 
+                            <button class="btn btn-info mb-5 mr-3" style="border-radius: 20px; width: 15em;" onclick="toggleStatusOrder('statusOrder{{ forloop.counter }}')">View Details</button>
+                        </div>
+                    {% else %}
+                        <div class="col-md-6" style="display: flex; flex-direction: column; align-items: flex-end; justify-content: flex-end;"> 
+                            <button class="btn btn-info mb-2 mr-3" style="border-radius: 20px; width: 15em;" onclick="toggleStatusOrder('statusOrder{{ forloop.counter }}')">Track your package</button>
+                            {% if order.status == 'Shipped' %}
+                                <a href="{% url 'order_complete' order.id %}" class="btn btn-primary mb-2 mr-3 order-link" style="border-radius: 20px; width: 15em;" title="Click when you receive the Order ">Order received</a>
+                            {% else %}
+                                <button class="btn btn-outline-primary mb-2 mr-3 " style="border-radius: 20px; width: 15em;" title="Click when you receive the Order " disabled>Order received</button>
+                            {% endif %}
+                                <a href="{% url 'order_cancel' order.id %}" class="btn btn-danger mb-3 mr-3 cancel-link" style="border-radius: 20px; width: 15em;">Cancel Order</a>
+                        </div>
+                    {% endif %}
+
+                </div>
+                <div class="container statusOrder" id="statusOrder{{ forloop.counter }}" >
+                    {% if order.status == 'Pending' %}
+                      <li class="orderstatus">Order Confirmed --> {{ order.created_at|date:"F j, Y" }}</li>
+                      <li class="orderstatus">waiting to shipped</li>
+                      
+                    {% endif %}
+
+                    {% if order.status == 'Completed' %}
+                      <li class="orderstatus">Order Confirmed --> {{ order.created_at|date:"F j, Y" }}</li>
+                      <li class="orderstatus">Shipped</li>
+                      <li class="orderstatus">Delivered --> {{ order.delivery_date|date:"F j, Y" }}</li>
+                      <li class="orderstatus">Order completed</li>
+                    {% endif %}
+
+                    {% if order.status == 'Shipped' %}
+                      <li class="orderstatus">Order Confirmed --> {{ order.created_at|date:"F j, Y" }}</li>
+                      <li class="orderstatus">Shipped</li>
+                      
+                    {% endif %}
+
+                    {% if order.status == 'Cancelled' %}
+                      <li class="orderstatus">Order Confirmed --> {{ order.created_at|date:"F j, Y" }}</li>
+                      <li class="orderstatus">cancelled --> {{ order.delivery_date|date:"F j, Y" }}</li>
+                    {% endif %}
+
+
+                </div>
+                
+                
+            </div>
+        {% endfor %}
+    </div>
+</section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const deleteLinks = document.querySelectorAll('.cancel-link');
+        deleteLinks.forEach(function (link) {
+            link.addEventListener('click', function (event) {
+                event.preventDefault(); 
+                const confirmation = confirm('Are you sure you want to cancel this order?');
+                if (confirmation) {
+                    window.location.href = this.href;
+                }
+            });
+        });
+    });
+    </script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const deleteLinks = document.querySelectorAll('.order-link');
+        deleteLinks.forEach(function (link) {
+            link.addEventListener('click', function (event) {
+                event.preventDefault(); 
+                const confirmation = confirm('Please click "OK" only after you recieved the order');
+                if (confirmation) {
+                    window.location.href = this.href;
+                }
+            });
+        });
+    });
+    </script>
+    <script>
+        function toggleStatusOrder(divId) {
+            console.log('button clicked')
+            var statusOrderDiv = document.getElementById(divId);
+            statusOrderDiv.classList.toggle('open');
+        }
+    </script>
+
+{% endblock %}

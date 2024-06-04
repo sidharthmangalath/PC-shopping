@@ -1,0 +1,114 @@
+.order-status {
+    position: relative;
+    margin-top: 20px;
+}
+
+.status-point {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #333;
+    top: -5px;
+    transform: translateX(-50%);
+}
+
+.confirmed {
+    left: 0;
+}
+
+.shipped {
+    left: 50%;
+}
+
+.delivered {
+    right: 0;
+}
+
+.line {
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background-color: #333;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
+.pro_details{
+    max-height: 30em;
+
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    box-shadow: inset 0 10px  10px -10px rgba(87, 86, 86, 0.5),
+                inset  0  -10px 10px -10px rgba(0, 0, 0, 0.5);
+    padding: 1em;
+}
+
+.pro_details::-webkit-scrollbar{
+    display: none;
+}
+
+.card-img-top {
+    position: relative;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    color: white;
+    display: flex;
+    align-items: start;
+    justify-content: end;
+    opacity: 0.4;
+    transition: opacity 0.6s ease;
+}
+
+.card:hover .overlay {
+    opacity: 1;
+}
+
+.orderoverlay{
+    display: block; 
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%; 
+    background-color: rgba(0, 0, 0, 0.781); 
+    z-index: 2;
+}
+
+
+.orderstatus{
+    border: solid rgba(137, 43, 226, 0.116);
+    width: 20em;
+    padding: 3px;
+    border-radius: 20px;
+    font-weight: bold;
+    margin: 3px;
+    background-image: radial-gradient(rgba(255, 255, 0, 0.26),rgba(0, 0, 255, 0.144) );
+}
+
+.statusOrder {
+    overflow: hidden;
+    max-height: 0; /* Start with max-height set to 0 */
+    padding-left: 20em; 
+    background-image: linear-gradient(rgba(0, 128, 0, 0.137), white); 
+    
+    padding-top: 0px;
+    padding-bottom: 0px;
+    transition: max-height 0.5s ease-out, padding-top 0.5s ease-out, padding-bottom 0.5s ease-out;
+}
+
+.statusOrder.open {
+    display: block;
+    border-radius: 5px;
+    max-height: 500px; /* Set a max-height larger than expected content height */
+    padding-top: 10px; /* Ensure padding is also animated */
+    padding-bottom: 10px;
+}

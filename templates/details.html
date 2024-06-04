@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<section>
+    <div class="container-fluid ">
+        <div class="row pl-5">
+            <div class="col-md-4 p-4" style="box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);">
+                {% if computer.image1 %}
+                    <div class="container m-2 p-2" >
+                        <img src="{{computer.image1.url}}" alt="" style="width: 100%; border-radius: 10px;">
+                    </div>
+                {% endif %}
+                {% if computer.image2 %}
+                    <div class="container m-2 p-2">
+                        <img src="{{computer.image2.url}}" alt="" style="width: 100%; border-radius: 10px;">
+                    </div>
+                {% endif %}
+                {% if computer.image3 %}
+                    <div class="container m-2 p-2">
+                        <img src="{{computer.image3.url}}" alt="" style="width: 100%; border-radius: 10px;">
+                    </div>
+                {% endif %}
+            </div>
+            <div class="col-md-8">
+                <div class="container  mt-4 p-2 pl-5">
+                    <div class="row">
+                        <div class="col-10">
+                            <h2>{{computer.name}}</h2>
+                        </div>
+                        <div class="col-2" >
+                            <a href="{% url 'wishlist_toggle' computer.id %}">
+                                {% if wishlisted %}
+                                    <img src="{% static 'images/wishliston.png' %}" style="width: 2rem;"> 
+                                {% else %}
+                                    <img src="{% static 'images/wishlistoff.png' %}" style="width: 2rem;"> 
+                                {% endif %}
+                            </a>
+                            
+                        </div>
+                    </div>
+                    
+                    
+                    <div class="row ml-1">
+                        <div>
+                            <a href=""><img src="{{computer.brand.logo.url}}" alt="" style="width: 2em; border-radius: 50%;"></a>
+                        </div>
+                        <div class="ml-2">
+                            <h5>{{computer.brand}}</h5>
+                        </div>
+                    </div>
+                    
+                    
+                    <h6>₹ {{computer.price}}</h6>
+                    <hr>
+                    <div class="pro_details" >
+                        <p>{{computer.description}}</p>
+                        <hr>
+                        <h5>Specifications</h5>
+                        <li><b>Processor:</b> {{computer.processor}}</li>
+                        <li><b>RAM:</b> {{computer.ram}} GB</li>
+                        <li><b>Storage:</b> {{computer.storage}} </li>
+                        {% for key, value in custom_specs.items %}
+                        <li><b>{{key}}:</b> {{value}} </li>
+                        {% endfor %}
+                    </div>
+                    <hr>
+                    <div class="p-3 mt-3" style=" display: flex; flex-direction: row; justify-content: space-around;">
+                        {% if computer.stock  > 0 %}
+                            <a class="btn btn-outline-primary" href="{% url 'cart_create' computer.id %}" style="border-radius: 0;"><b>Add to cart</b></a>
+                            <!-- <a class="btn btn-outline-success" href=""  style="border-radius: 0; "></a> -->
+                        {% else %}
+                            <h5 class="text-danger">Out of stock!!</h5>
+                        {% endif %}
+                    </div>
+
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
